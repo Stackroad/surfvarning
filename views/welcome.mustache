@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117192141-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117192141-1');
+</script>
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Per Welander</title>
+  <meta name="Per Welander" content="">
+  <meta name="Per Welander" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Functionality
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/client.js"></script>
+
+</head>
+<body onload="welcomeEventListeners()">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+
+    <section class="header">
+      <h2 class="title">Hi, I'm Per Welander</h2>
+      <p>I'm finishing my studies in Biomedical Enginnering this summer and I'm always up for a new challenge. Feel free to send me a message if you have one for me.</p>
+    </section>
+
+    <div id="headerImage" class="center">
+      <img src="/images/b9.jpg" />
+    </div>
+
+
+  <div class="container" id="formcontainer" style="margin-bottom: 7%">
+    <form id="formchallenge">
+    <div class="sixteen columns">
+      <div class="row">
+        <div class="six columns">
+          <label for="emailInput">Your email</label>
+          <input class="u-full-width" type="email" placeholder="example@email.com" id="emailInput">
+        </div>
+        <div class="six columns">
+          <label for="recipientInput">Reason for contacting</label>
+          <select class="u-full-width" id="recipientInput">
+            <option value="Option 1">I have a challenge for you</option>
+            <option value="Option 2">Can I get your number?</option>
+          </select>
+        </div>
+      </div>
+      <label for="message">Message</label>
+      <textarea class="u-full-width" placeholder="Hi Per..." id="message"></textarea>
+      <button class="button" type="submit">Send</button>
+    </div>
+    </form>
+  </div>
+
+  <div class="docs-section" id="grid">
+        <h4>Surf Varning</h4>
+        <p>Would you like to never miss a surf again? Continue to Surf Varning and we will tell you how:</p>
+        <a class="button" href="/surfvarning">Continue to Surf Varning</a>
+
+  </div>
+  </div>
+
+<script>
+  console.log("Hi, how you doing? :)");
+</script>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

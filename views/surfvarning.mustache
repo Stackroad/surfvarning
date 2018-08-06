@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117192141-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117192141-1');
+</script>
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Per Welander</title>
+  <meta name="Per Welander" content="">
+  <meta name="Per Welander" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Functionality
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/client.js"></script>
+
+</head>
+<body onload="welcomeEventListeners()">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+
+
+    <section class="header">
+      <h2 class="title">Surfvarning</h2>
+      <p>Never miss a surf again</p>
+      <div id="headerImage" class="center">
+        <img src="/images/wave.jpg" />
+      </div>
+    </section>
+
+
+  <div class="docs-section" id="grid">
+    <div class="container" id="formcontainer">
+      <form method="POST" action="/subscription">
+      <p>Enter email to get notifications when there will be waves at your local spot.</p>
+      <!-- <div class="sixteen columns"> -->
+        <div class="row">
+          <div class="six columns">
+            <label for="emailInput">Your email</label>
+            <input class="u-full-width" type="email" placeholder="example@email.com" id="emailInput">
+          </div>
+          <div class="six columns">
+            <label for="recipientInput">Get notifactions for</label>
+            <select class="u-full-width" id="recipientInput">
+              <option value="Option 1">Apelviken</option>
+            </select>
+          </div>
+        </div>
+        <button class="button" type="submit">Request</button>
+      <!-- </div> -->
+      </form>
+    </div>
+  </div>
+
+  <div class="docs-section" id="grid">
+    <p> Next surf in Apelviken: 12 July, Thursday, 10.00-13.00 </p>
+    <p> Expected size of waves: Medium </p>
+
+  </div>
+
+  </div>
+
+<script>
+  console.log("Hi, how you doing? :)");
+</script>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
