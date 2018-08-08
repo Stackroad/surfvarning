@@ -29,6 +29,9 @@ class ApelvikenSpider(scrapy.Spider):
         client = MongoClient('mongodb://localhost:27017/')
         db = client['surfvarningdb']
 
+        if  int(wind_direction) == 0:
+            wind_direction = 360
+
         # if math.isint(float(wind)):
         #     print("error wind")
         # elif math.isnan(float(wind_direction)):

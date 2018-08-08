@@ -29,8 +29,8 @@ def crawl():
     """
     d = crawl_job()
     #sleep_6_hour = 3600*6
-    sleep_6_hour = 3000
-    d.addCallback(schedule_next_crawl, sleep_6_hour)
+    sleep_4_hour = 3600*4
+    d.addCallback(schedule_next_crawl, sleep_4_hour)
     d.addErrback(catch_error)
 
 def catch_error(failure):

@@ -21,11 +21,11 @@ def sendFunc(spot, wind, wind_direction, clients, password, user):
       <head></head>
       <body>
         <p>Looks like it is going to be surf in """ + spot + """ tomorrow!<br>
-           The wind is going to be """ + str(wind) + """ m/s <br>
+           The wind is going to be """ + str(wind) + """ m/s and is going to come from the direction of """ + str(wind_direction) + """ degrees. <br>
            <br>
            <br>
-           <br>
-           Want to unsubscribe to this message :( follow the link:  <a href="http://127.0.0.1/managesubscription">link</a>
+           Want to unsubscribe to this message? :'( <br>
+           Remember that this is only a beta version! Still want to unsubscribe, follow the link:  <a href="http://perwelander.com/managesubscription">link</a>
         </p>
       </body>
     </html>

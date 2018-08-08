@@ -23,7 +23,7 @@ from scrapy.utils.log import configure_logging
 TIME_START_END = {
     'mon': [datetime.time(7, 00), datetime.time(8, 0)],
     'tue': [datetime.time(7, 00), datetime.time(8, 0)],
-    'wed': [datetime.time(7, 00), datetime.time(18, 0)],
+    'wed': [datetime.time(7, 00), datetime.time(8, 0)],
     'thu': [datetime.time(7, 00), datetime.time(8, 0)],
     'fri': [datetime.time(7, 00), datetime.time(8, 0)],
     'sat': [datetime.time(8, 00), datetime.time(9, 0)],
@@ -85,8 +85,7 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
 
 
     # For Apelviken
-    if wind > 4 & 180 <= wind_direction <= 270:
-        print("Wind is in right interval")
+    if wind > 6 and 180 <= wind_direction <= 360:
         for obj in db.surfvarningclients.find({"spot": "Apelviken"}):
             clients_apelviken.append(obj["email"])
 
@@ -94,13 +93,20 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
         sendNotify("Apelviken", wind, wind_direction, clients_apelviken, password, user)
 
     # For Kosa
-    # if wind > 7 & 270 <= wind_direction <= 360:
-    #     print("Wind is in right interval")
-    #     for obj in db.surfvarningclients.find({"spot": "Kosa"}):
-    #         clients_kosa.append(obj["email"])
-    #
-    #     print("SENDING EMAIL Kosa!")
-    #     sendNotify("Kosa", wind, wind_direction, clients_kosa, password, user)
+    if wind > 7 and 270 <= wind_direction <= 315:
+        for obj in db.surfvarningclients.find({"spot": "Kosa"}):
+            clients_kosa.append(obj["email"])
+
+        print("SENDING EMAIL Kosa!")
+        sendNotify("Kosa", wind, wind_direction, clients_kosa, password, user)
+
+    # For fästningen
+    if wind > 7 and 180 <= wind_direction <= 270:
+        for obj in db.surfvarningclients.find({"spot": "Fästningen"}):
+            clients_fastningen.append(obj["email"])
+
+        print("SENDING EMAIL Fästningen!")
+        sendNotify("Fästningen", wind, wind_direction, clients_fastningen, password, user)
 
 def sendNotify(spot, wind, wind_direction, clients, password, user):
     sendFunc(spot, wind, wind_direction, clients, password, user)
