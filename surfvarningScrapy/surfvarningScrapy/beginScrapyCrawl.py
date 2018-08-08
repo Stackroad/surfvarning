@@ -1,7 +1,7 @@
 from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
-from spiders.weather_spider import ApelvikenSpider
+from spiders.apelviken_spider import ApelvikenSpider
 import sys
 
 def crawl_job():
@@ -29,7 +29,7 @@ def crawl():
     """
     d = crawl_job()
     #sleep_6_hour = 3600*6
-    sleep_6_hour = 30
+    sleep_6_hour = 3000
     d.addCallback(schedule_next_crawl, sleep_6_hour)
     d.addErrback(catch_error)
 

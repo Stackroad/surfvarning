@@ -3,6 +3,7 @@ import pymongo
 from pymongo import MongoClient
 import datetime
 import scrapy
+import math
 
 class ApelvikenSpider(scrapy.Spider):
     name = "apelviken"
@@ -17,27 +18,37 @@ class ApelvikenSpider(scrapy.Spider):
 
     def parse(self, response):
         print(response.css('title::text').extract())
-        wind = response.xpath('normalize-space(//*[@id="day-1"]/article/div[1]/div[5]/div/p/text())')[0].extract()
-        wind_direction = response.xpath('//*[@id="day-1"]/article/div[1]/div[5]/div/span/svg')[0].extract()
-        rain = response.xpath('normalize-space(//*[@id="day-1"]/article/div[1]/div[4]/div/p/text())')[0].extract()
-        day = response.xpath('normalize-space(//*[@id="day-1"]/article/div[1]/div[1]/h3/time[2]/text())')[0].extract()
-
-        msgSplit = msgRaw.split(' ')
-        msgSplit = msgSplit[0]
-        msg = float(msgSplit.replace(',','.'))
+        wind = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[5]/div/p/text())')[0].extract().split()[0]
+        wind_direction = response.xpath('//*[@id="day-2"]/article/div[1]/div[5]/div/span/svg')[0].extract().split()[4]
+        rain = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[4]/div/p/text())')[0].extract()[0]
+        # day_month = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[1]/h3/time[0])')[0].extract().split()
+        date = response.xpath('//*[@id="day-2"]/article/div[1]/div[1]/h3/time[2]')[0].extract().split()[1].split('"')[1].split('T')[0]
 
         client = MongoClient()
         client = MongoClient('localhost', 27017)
         client = MongoClient('mongodb://localhost:27017/')
-        db = client['surfvarning']
+        db = client['surfvarningdb']
 
-        post = {"fetched time": datetime.datetime.utcnow(),
-            "wind": wind,
-            "day": day
+        # if math.isint(float(wind)):
+        #     print("error wind")
+        # elif math.isnan(float(wind_direction)):
+        #     print("error wind_direction")
+        # elif math.isnan(float(day)):
+        #     print("error day")
+        # elif math.isnan(float(month)):
+        #     print("error month")
+        # elif math.isnan(float(rain)):
+        #     print("error rain")
+
+        post = {"fetch_time": datetime.datetime.utcnow(),
+            "wind": int(wind),
+            "wind_direction": int(wind_direction),
+            "date": date,
+            "rain": int(rain),
+            "surfspot": "Varberg"
             }
-        posts = db.posts
+
+        print("POST", post)
+        posts = db.varberg
         post_id = posts.insert_one(post).inserted_id
         print('Post ID: ', post_id)
-
-
-#response.xpath('//*[@id="day-2"]/article/div[1]/div[5]/div/span/svg')[0].extract()
