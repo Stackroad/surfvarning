@@ -4,9 +4,9 @@ import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def sendFunc(spot, wind, wind_direction, clients, password, user):
+def sendFunc(spot, wind, wind_direction, client, password, user):
     sent_from = user
-    to = clients
+    to = client
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
@@ -14,6 +14,8 @@ def sendFunc(spot, wind, wind_direction, clients, password, user):
     msg['From'] = sent_from
     msg['To'] = user
     print(to)
+    print("IN MAIL FUNC")
+    print("client,", client)
 
     # Create the body of the message (a plain-text and an HTML version).
     html = """\
@@ -25,7 +27,8 @@ def sendFunc(spot, wind, wind_direction, clients, password, user):
            <br>
            <br>
            Want to unsubscribe to this message? :'( <br>
-           Remember that this is only a beta version! Still want to unsubscribe, follow the link:  <a href="http://perwelander.com/managesubscription">link</a>
+           Remember that this is only a beta version! Still want to unsubscribe, follow the link:
+           <a href="http://127.0.0.1/managesubscription?email=""" + client + """&spot=""" + spot + """ ">link</a>
         </p>
       </body>
     </html>
@@ -41,7 +44,7 @@ def sendFunc(spot, wind, wind_direction, clients, password, user):
     mail = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     try:
         mail.login(user, password)
-        mail.sendmail(sent_from, [user] + clients, msg.as_string())
+        mail.sendmail(sent_from, client, msg.as_string())
         mail.quit()
         print('Email sent!')
     except:

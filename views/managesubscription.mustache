@@ -41,50 +41,21 @@
   <script src="/client.js"></script>
 
 </head>
-<body onload="manageSubscriptionEventListeners()">
+<body>
 
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
-
-
+  <div class="header">
     <section class="header">
-      <h2 class="title">Surfvarning</h2>
-      <p>Manage subscription</p>
+      <h1 class="title">Surfvarning</h1>
+      <h4> Manage subscription</h4>
     </section>
+  </div>
 
   <div class="docs-section">
-    <div class="container" id="formcontainer">
-    </div>
-    <div class="container">
-      <form id="manageSubscriptionForm">
-      <p>Enter email to remove subscription.</p>
-        <div class="row">
-          <div class="six columns">
-            <label for="emailInput">Your email</label>
-            <input class="u-full-width" type="email" placeholder="example@email.com" id="emailInput" name="emailInput" required>
-          </div>
-          <div class="six columns">
-            <label for="recipientInput">Notifactions for</label>
-            <select class="u-full-width" id="recipientInput" name="recipientInput">
-              <option value="Apelviken">Apelviken</option>
-              <option value="Kosa">Kosa</option>
-              <option value="Fästningen">Fästningen</option>
-            </select>
-          </div>
-        </div>
-        <button class="button" type="submit">Request</button>
-      </form>
+    <div class="container" align="center" id="unsubscribeContainer">
+      <p class="section-description">Are you sure you want to remove {{#email}} {{email}} {{/email}}  from subscribing to the spot {{#spot}} {{spot}} {{/spot}}</p>
+      <a class="button" onClick="unsubscribe(this.id)" id="{{#email}}{{email}}{{/email}} {{#spot}}{{spot}}{{/spot}}">Unsubscribe</a>
     </div>
   </div>
 
-
-  </div>
-
-<script>
-  console.log("Hi, how you doing? :)");
-</script>
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>

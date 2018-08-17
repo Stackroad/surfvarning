@@ -1,0 +1,2 @@
+add admin page
+change so id is used when ending email and removing from database instead of email and spot

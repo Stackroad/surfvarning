@@ -24,7 +24,7 @@ TIME_START_END = {
     'mon': [datetime.time(7, 00), datetime.time(8, 0)],
     'tue': [datetime.time(7, 00), datetime.time(8, 0)],
     'wed': [datetime.time(7, 00), datetime.time(8, 0)],
-    'thu': [datetime.time(7, 00), datetime.time(8, 0)],
+    'thu': [datetime.time(7, 00), datetime.time(14, 0)],
     'fri': [datetime.time(7, 00), datetime.time(8, 0)],
     'sat': [datetime.time(8, 00), datetime.time(9, 0)],
     'sun': [datetime.time(8, 00), datetime.time(9, 0)],
@@ -66,6 +66,8 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
     clients_apelviken = []
     clients_kosa = []
     clients_fastningen = []
+    clients_lajet = []
+    clients_secret_spot = []
 
     sys.stdout.flush()
 
@@ -80,33 +82,65 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
 
     post = db.varberg.find_one({"date": str(tomorrow), "surfspot": "Varberg"})
 
-    wind = post.get("wind")
-    wind_direction = post.get("wind_direction")
+    if post == None:
+        print("Could not retrieve anything from database")
+    try:
+        wind = post.get("wind")
+        wind_direction = post.get("wind_direction")
 
+        # For Apelviken
+        if wind > 6 and 180 <= wind_direction <= 360:
+            for obj in db.surfvarningclients.find({"spot": "Apelviken"}):
+                clients_apelviken.append(obj["email"])
 
-    # For Apelviken
-    if wind > 6 and 180 <= wind_direction <= 360:
-        for obj in db.surfvarningclients.find({"spot": "Apelviken"}):
-            clients_apelviken.append(obj["email"])
+            print("SENDING EMAIL Apelviken!")
+            for client in clients_apelviken:
+                print("client", client)
+                sendNotify("Apelviken", wind, wind_direction, client, password, user)
 
-        print("SENDING EMAIL Apelviken!")
-        sendNotify("Apelviken", wind, wind_direction, clients_apelviken, password, user)
+        # For Kosa
+        if wind > 7 and 270 <= wind_direction <= 315:
+            for obj in db.surfvarningclients.find({"spot": "Kosa"}):
+                clients_kosa.append(obj["email"])
 
-    # For Kosa
-    if wind > 7 and 270 <= wind_direction <= 315:
-        for obj in db.surfvarningclients.find({"spot": "Kosa"}):
-            clients_kosa.append(obj["email"])
+            print("SENDING EMAIL Kosa!")
+            for client in clients_kosa:
+                print(client)
+                sendNotify("Kosa", wind, wind_direction, client, password, user)
 
-        print("SENDING EMAIL Kosa!")
-        sendNotify("Kosa", wind, wind_direction, clients_kosa, password, user)
+        # For fästningen
+        if wind > 7 and 180 <= wind_direction <= 270:
+            for obj in db.surfvarningclients.find({"spot": "Fästningen"}):
+                clients_fastningen.append(obj["email"])
 
-    # For fästningen
-    if wind > 7 and 180 <= wind_direction <= 270:
-        for obj in db.surfvarningclients.find({"spot": "Fästningen"}):
-            clients_fastningen.append(obj["email"])
+            print("SENDING EMAIL Fästningen!")
+            for client in clients_fastningen:
+                print("client", client)
+                sendNotify("Fästningen", wind, wind_direction, client, password, user)
 
-        print("SENDING EMAIL Fästningen!")
-        sendNotify("Fästningen", wind, wind_direction, clients_fastningen, password, user)
+        # For läjet
+        if wind > 7 and 180 <= wind_direction <= 315:
+            for obj in db.surfvarningclients.find({"spot": "Läjet"}):
+                clients_lajet.append(obj["email"])
+
+            print("SENDING EMAIL Läjet!")
+            for client in clients_lajet:
+                print("client", client)
+                sendNotify("Läjet", wind, wind_direction, client, password, user)
+
+        # For secret spot
+        if wind > 8 and 225 <= wind_direction <= 270:
+            for obj in db.surfvarningclients.find({"spot": "Secret-Spot"}):
+                clients_secret_spot.append(obj["email"])
+
+            print("SENDING EMAIL Secret!")
+            for client in clients_secret_spot:
+                print("client", client)
+                sendNotify("Secret Spot", wind, wind_direction, client, password, user)
+
+    except:
+        print("Something went wrong when retrieving from database")
+        sys.stdout.flush()
 
 def sendNotify(spot, wind, wind_direction, clients, password, user):
     sendFunc(spot, wind, wind_direction, clients, password, user)

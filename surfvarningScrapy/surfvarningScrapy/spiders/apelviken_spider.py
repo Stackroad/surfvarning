@@ -21,7 +21,6 @@ class ApelvikenSpider(scrapy.Spider):
         wind = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[5]/div/p/text())')[0].extract().split()[0]
         wind_direction = response.xpath('//*[@id="day-2"]/article/div[1]/div[5]/div/span/svg')[0].extract().split()[4]
         rain = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[4]/div/p/text())')[0].extract()[0]
-        # day_month = response.xpath('normalize-space(//*[@id="day-2"]/article/div[1]/div[1]/h3/time[0])')[0].extract().split()
         date = response.xpath('//*[@id="day-2"]/article/div[1]/div[1]/h3/time[2]')[0].extract().split()[1].split('"')[1].split('T')[0]
 
         client = MongoClient()
