@@ -82,7 +82,7 @@ var addSubscription = function(element){
       if (response.data.inserted) {
         var activateContainer = document.getElementById("activateContainer");
         activateContainer.innerHTML =  "<h3> Hurray, " + emailInput + " is now subscribing to the spot: " + recipientInput + "! </h3> \
-        <h4> Want to subscribe to more spots? <h4> <a class=" + "button" + " href=" + "http://127.0.0.1/surfvarning" + ">Yes!</a>"
+        <h4> Want to subscribe to more spots? <h4> <a class=" + "button" + " href=" + "http://perwelander.com/surfvarning" + ">Yes!</a>"
       }
       else {
         var activateContainer = document.getElementById("activateContainer");

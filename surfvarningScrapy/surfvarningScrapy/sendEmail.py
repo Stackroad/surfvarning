@@ -43,7 +43,7 @@ def sendFunc(spot, wind, wind_direction, clients, password, user):
            <br>
            Want to unsubscribe to this message? :'( <br>
            Remember that this is only a beta version! Still want to unsubscribe, follow the link:
-           <a href="http://127.0.0.1/managesubscription?email=""" + client + """&spot=""" + spot + """ ">link</a>
+           <a href="http://perwelander.com/managesubscription?email=""" + client + """&spot=""" + spot + """ ">link</a>
         </p>
       </body>
     </html>
