@@ -100,7 +100,7 @@ db.once('open', function() {
       from: 'surfvarning@gmail.com',
       to: email_input,
       subject: 'Activate surfvarning subscription for ' + recipient_input + '! 🏄',
-      html: '<h2>We are glad that you want to surf and subscribe to surfvarning!</h2> <br> <p>Follow this <a href=http://127.0.0.1/activatesubscription?email=' + email_input + '&spot=' + recipient_input + '>link</a> to activate the subscription.  </p>'
+      html: '<h2>We are glad that you want to surf and subscribe to surfvarning!</h2> <br> <p>Follow this <a href=http://perwelander.com/activatesubscription?email=' + email_input + '&spot=' + recipient_input + '>link</a> to activate the subscription.  </p>'
       };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -109,7 +109,7 @@ db.once('open', function() {
         sendEmail = false
       }
       else {
-        console.log('Email sent: ' + info.response);
+        console.log('Email sent: ' + info.response + "TO: " + email_input);
       }
   });
   res.json({emailStatus : sendEmail})

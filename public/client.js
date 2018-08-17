@@ -31,11 +31,11 @@ var checkSubscription = function(event){
         .then(function (response) {
           if (response.data.emailStatus) {
             var formcontainer = document.getElementById("formcontainer");
-            formcontainer.innerHTML =  "<h3> An email has been sent to " + emailInput + ", activate the subscription to " + recipientInput + " by clicking on the link in the email </h3>";
+            formcontainer.innerHTML =  "<h4> An email has been sent to " + emailInput + ", activate the subscription to " + recipientInput + " by clicking on the link in the email </h4>";
           }
           else {
             var formcontainer = document.getElementById("formcontainer");
-            formcontainer.innerHTML =  "<h3> We didn't manage to send an email to " + recipientInput + ", please try again. </h3>";
+            formcontainer.innerHTML =  "<h4> We didn't manage to send an email to " + recipientInput + ", please try again. </h4>";
           }
         })
         .catch(function (error) {
@@ -44,7 +44,7 @@ var checkSubscription = function(event){
     }
     else {
       var formcontainer = document.getElementById("formcontainer");
-      formcontainer.innerHTML =  "<h3> You are already subscribing to the spot: " + recipientInput + "... </h3>";
+      formcontainer.innerHTML =  "<h4> You are already subscribing to the spot: " + recipientInput + "... </h4>";
     }
   })
   .catch(function (error) {
@@ -60,11 +60,11 @@ var activateSubscription = function(element){
     .then(function (response) {
       if (response.data.emailStatus) {
         var activateContainer = document.getElementById("activateContainer");
-        activateContainer.innerHTML =  "<h3> An email has been sent to " + emailInput + ", activate the subscription to " + recipientInput + " by clicking on the link in the email </h3>";
+        activateContainer.innerHTML =  "<h4> An email has been sent to " + emailInput + ", activate the subscription to " + recipientInput + " by clicking on the link in the email </h4>";
       }
       else {
         var activateContainer = document.getElementById("activateContainer");
-        activateContainer.innerHTML =  "<h3> We didn't manage to send an email to " + recipientInput + "... </h3>";
+        activateContainer.innerHTML =  "<h4> We didn't manage to send an email to " + recipientInput + "... </h4>";
       }
     })
     .catch(function (error) {
