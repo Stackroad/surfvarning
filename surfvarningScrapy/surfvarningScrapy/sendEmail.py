@@ -4,7 +4,19 @@ import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def sendFunc(spot, wind, wind_direction, client, password, user):
+def degrees_to_cardinal(degrees):
+    dict = {}
+    dict[45] = 'northeast'
+    dict[90] = 'east'
+    dict[135] = 'southeast'
+    dict[180] = 'south'
+    dict[225] = 'southwest'
+    dict[270] = 'west'
+    dict[315] = 'northwest'
+    dict[360] = 'north'
+    return dict[degrees]
+
+def sendFunc(spot, wind, wind_direction, clients, password, user):
     sent_from = user
     to = client
 
@@ -17,13 +29,16 @@ def sendFunc(spot, wind, wind_direction, client, password, user):
     print("IN MAIL FUNC")
     print("client,", client)
 
+    # Map wind direction from angle in degrees to cardinal direction
+    wind_direction = degrees_to_cardinal(wind_direction)
+
     # Create the body of the message (a plain-text and an HTML version).
     html = """\
     <html>
       <head></head>
       <body>
         <p>Looks like it is going to be surf in """ + spot + """ tomorrow!<br>
-           The wind is going to be """ + str(wind) + """ m/s and is going to come from the direction of """ + str(wind_direction) + """ degrees. <br>
+           The wind is going to be """ + str(wind) + """ m/s and is going to come from """ + wind_direction + """. <br>
            <br>
            <br>
            Want to unsubscribe to this message? :'( <br>

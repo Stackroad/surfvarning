@@ -1,2 +1,5 @@
 surfvarningScrapy/surfvarningScrapy/userPassword.txt
-node_modules*
+.DS_Store
+node_modules/*
+surfvarningScrapy/surfvarningScrapy/__pycache__/*
+surfvarningScrapy/surfvarningScrapy/spiders/__pycache__/*
