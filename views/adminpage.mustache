@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117192141-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117192141-1');
+</script>
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Per Welander</title>
+  <meta name="Per Welander" content="">
+  <meta name="Per Welander" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Functionality
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/client.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <section class="header">
+        <h1 class="title">Surfvarning Admin</h1>
+        <h4> YOU ARE INSIDE</h4>
+      </section>
+    </div>
+    <div class="section-container">
+      <table class="u-full-width">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Wind</th>
+            <th>Wind Direction</th>
+            <th>Surf Spot</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#spot}}
+          <tr>
+            <td>{{date}}</td>
+            <td>{{wind}}</td>
+            <td>{{wind_direction}}</td>
+            <td>{{surfspot}}</td>
+          </tr>
+          {{/spot}}
+        </tbody>
+      </table>
+    </div>
+    <div class="section-container">
+      <table class="u-full-width">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Spot</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#entries}}
+          <tr>
+            <td>{{email}}</td>
+            <td>{{spot}}</td>
+            <td>{{createdAt}}</td>
+            <td><button type="button" onclick="deleteEntry(this)" data-id="{{id}}">Del</button></td>
+          </tr>
+          {{/entries}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

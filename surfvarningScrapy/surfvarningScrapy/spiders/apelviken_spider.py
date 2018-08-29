@@ -51,6 +51,6 @@ class ApelvikenSpider(scrapy.Spider):
             }
 
         print("POST", post)
-        posts = db.varberg
+        posts = db.varbergs
         post_id = posts.insert_one(post).inserted_id
         print('Post ID: ', post_id)

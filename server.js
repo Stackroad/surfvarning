@@ -6,6 +6,13 @@ var mongoose = require('mongoose');
 var mustacheExpress = require('mustache-express');
 var Pushover = require('node-pushover');
 var nodemailer = require('nodemailer');
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
+var router = express.Router();
+var auth = require("./controllers/AuthController.js");
+var passportLocalMongoose = require('passport-local-mongoose');
+session = require('express-session')
+
 
 // adds mustache to end of file
 app.engine('mustache', mustacheExpress());
@@ -14,6 +21,25 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+
+// Passport middleware
+app.use(require('serve-static')(__dirname + '/../../public'));
+app.use(require('cookie-parser')());
+
+var session = require("express-session"),
+    bodyParser = require("body-parser");
+app.use(express.static('public'));
+app.use(session({ secret: "cats" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(require("express-session")({
+      secret:"cat",
+      resave: false,
+      saveUninitialized: false
+}));
+
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/surfvarningdb';
@@ -35,15 +61,89 @@ db.once('open', function() {
       { timestamps: true }
   );
 
-  var Surfvarning = mongoose.model('surfvarningclients', surfvarningSchema);
+  var adminSchema = new mongoose.Schema({
+      username: String,
+      password: String },
+      { timestamps: true }
+  );
 
-  app.use(express.static('public'));
+  var userSchema = new mongoose.Schema({
+      username: String,
+      password: String
+  });
+
+  var adminSchema = new mongoose.Schema({
+      username: String,
+      password: String
+  });
+
+  var surfSpotVarberg = new mongoose.Schema({
+      fetch_time : Date,
+      wind: Number,
+      wind_direction: Number,
+      date : Date,
+      rain : Number,
+      surfspot : String
+  });
+
+  userSchema.methods.validPassword = function( pwd ) {
+    return ( this.password === pwd );
+  };
+
+  userSchema.plugin(passportLocalMongoose);
+
+  //===============PASSPORT=================
+  var User = mongoose.model('user', userSchema);
+  module.exports = mongoose.model("user",userSchema);
+
+  passport.use(new LocalStrategy(User.authenticate()));
+
+  // Passport session setup.
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
+
+
+  // Simple route middleware to ensure user is authenticated.
+  function ensureAuthenticated(req, res, next) {
+    console.log("req", req)
+    if (req.isAuthenticated()) { return next(); }
+    console.log("ensureAuthenticated Function")
+    req.session.error = 'Please sign in!';
+    res.redirect('/login');
+  }
+
+  var Surfvarning = mongoose.model('surfvarningclients', surfvarningSchema);
+  var Varberg = mongoose.model('varberg', surfSpotVarberg);
+
+  var AdminUser = mongoose.model('admin', adminSchema);
 
   var fs = require('fs');
   var fileContents;
   var userpass = fs.readFileSync('./surfvarningScrapy/surfvarningScrapy/userPassword.txt', 'utf8').split(" ")
   var user = userpass[0]
   var pass = userpass[1]
+  var admin = userpass[2]
+  var adminPass = userpass[3]
+
+  // var insert = new Varberg({wind: 9, wind_direction: 333, surfspot: "Varberg"});
+  //
+  // insert.save(function (err, insert) {
+  //   if (err) {
+  //     return console.error(err)
+  //   }
+  //   else {
+  //     console.log("DONE")
+  //   }
+  // })
+
+  var surfSpotVarberg = new mongoose.Schema({
+      fetch_time : Date,
+      wind: Number,
+      wind_direction: Number,
+      date : Date,
+      rain : Number,
+      surfspot : String
+  });
 
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -73,6 +173,70 @@ db.once('open', function() {
   app.get('/activatesubscription', function (req, res) {
      res.render('activatesubscription', {email : req.query.email, spot : req.query.spot});
   })
+
+  app.get('/login', function (req, res) {
+     res.render('login');
+  })
+
+  app.get('/adminpage', ensureAuthenticated, function (req, res) {
+    var clients
+    var spotVarberg
+
+    Varberg.find().limit(20)
+      .sort({fetch_time: -1})
+      .exec()
+      .then(spotVarbergdb => {
+            spotVarberg = spotVarbergdb
+          })
+         .catch(err => {
+            console.error(err)
+          })
+
+    Surfvarning.find(function (err, clientsdb) {
+      if (err) return handleError(err)
+      console.log(clientsdb)
+      clients = clientsdb
+
+    console.log("spotVarberg", spotVarberg)
+    res.render('adminpage', {user: req.user, entries : clients, spot : spotVarberg});
+    })
+  })
+
+  app.post('/login', passport.authenticate('local', {
+    successRedirect: '/adminpage',
+    failureRedirect: '/login',
+  })
+  );
+
+  // Use the LocalStrategy within Passport to login/"signin" users.
+  passport.use('local', new LocalStrategy({
+    passReqToCallback : true
+  }, function(req, username, password, done) {
+      console.log("username", username)
+      console.log("password", password)
+      User.findOne({ 'username' : username }, function (err, user, req) {
+        console.log("err", err)
+        console.log("user", user)
+        if (err) {
+          console.log("ERR")
+        }
+        if (!user) {
+          console.log("Incorrect username")
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          console.log("Incorrect password")
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        else {
+          console.log("Logged in")
+          return done(null, user);
+        }
+
+        }
+      )
+    }
+  ));
 
   app.post('/checkAlreadySubscribing', function (req, res) {
     var email_input = req.body.email_input
@@ -158,6 +322,15 @@ db.once('open', function() {
     });
   })
 
+  app.delete('/adminpage/:id', function (req, res) {
+    Surfvarning.remove({ _id: req.params.id }, function(err) {
+      if(err) {
+        console.log(err)
+      }
+      res.json({Removed : "Done"})
+    });
+  })
+
   app.post('/send-pushover/', function (req, res) {
     var email_input = req.body.email_input
     var recipient_input = req.body.recipient_input
@@ -195,5 +368,4 @@ db.once('open', function() {
      var port = server.address().port
      console.log("App listening at http://%s:%s", host, port)
   })
-
 });

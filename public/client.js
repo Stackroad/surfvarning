@@ -137,6 +137,35 @@ var manageSubscription = function(event){
     });
 }
 
+var adminLogin = function(event){
+  event.preventDefault();
+  var usernameInserted = document.getElementById("username").value;
+  var passwordInserted = document.getElementById("password").value;
+  console.log("usernameInserted", usernameInserted)
+  console.log("passwordInserted", passwordInserted)
+
+  axios.post('/admin', {params: {username: usernameInserted, password: passwordInserted}})
+    .then(function (response) {
+      console.log(response)
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+var deleteEntry = function(element){
+  var id = element.dataset.id
+  axios.delete('/adminpage/' + id)
+    .then(function (response) {
+      var parentRow = element.parentElement.parentElement;
+      parentRow.remove()
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 var welcomeEventListeners = function(){
   var formchallenge = document.getElementById("formchallenge")
   formchallenge.addEventListener("submit", sendPushover, false);
@@ -145,4 +174,9 @@ var welcomeEventListeners = function(){
 var surfvarningAddSubscriptionEventListeners = function(){
   var subscriptionForm = document.getElementById("subscriptionForm")
   subscriptionForm.addEventListener("submit", checkSubscription, false);
+}
+
+var surfvarningAdminEventListeners = function(){
+  var adminForm = document.getElementById("adminForm")
+  adminForm.addEventListener("submit", adminForm, false);
 }

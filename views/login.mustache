@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117192141-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117192141-1');
+</script>
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Per Welander</title>
+  <meta name="Per Welander" content="">
+  <meta name="Per Welander" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Functionality
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/client.js"></script>
+
+</head>
+<body>
+
+  <div class="header">
+    <section class="header">
+      <h1 class="title">Surfvarning</h1>
+      <h4> Admin login</h4>
+
+      <form action="/login" method="post">
+        <div>
+             <label>Username:</label>
+             <input type="text" name="username"/>
+        </div>
+        <div>
+             <label>Password:</label>
+             <input type="password" name="password"/>
+        </div>
+        <div>
+             <input type="submit" value="Log In"/>
+        </div>
+    </form>
+
+    </section>
+  </div>
+
+</body>
+</html>

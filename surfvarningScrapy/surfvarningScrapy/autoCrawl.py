@@ -80,16 +80,21 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
     else:
         db = client['surfvarningdb']
 
-    post = db.varberg.find_one({"date": str(tomorrow), "surfspot": "Varberg"})
+    post = db.varbergs.find_one({"date": str(tomorrow), "surfspot": "Varberg"})
 
     if post == None:
         print("Could not retrieve anything from database")
+        sendNotify("Could not retrieve anything from database", "wind", "wind_direction", "perwelander.swe@gmail.com", password, user)
     try:
         wind = post.get("wind")
         wind_direction = post.get("wind_direction")
+        console.log("wind", wind)
+        console.log("wind_direction", wind_direction)
+
+        sendNotify("TEST", wind, wind_direction, "perwelander.swe@gmail.com", password, user)
 
         # For Apelviken
-        if wind > 6 and 180 <= wind_direction <= 360:
+        if wind > 3 and 180 <= wind_direction <= 360:
             for obj in db.surfvarningclients.find({"spot": "Apelviken"}):
                 clients_apelviken.append(obj["email"])
 
@@ -144,6 +149,18 @@ def setUpDatabaseConnectionRetrive(firstTimeBool):
 
 def sendNotify(spot, wind, wind_direction, clients, password, user):
     sendFunc(spot, wind, wind_direction, clients, password, user)
+    post = {"send_time": datetime.datetime.utcnow(),
+        "wind": int(wind),
+        "wind_direction": int(wind_direction),
+        "date": date,
+        "rain": int(rain),
+        "surfspot": "Varberg",
+        "clients" : clients
+        }
+    posts = db.sent_emails
+    post_id = posts.insert_one(post).inserted_id
+    console.log(post)
+    sys.stdout.flush()
 
 if __name__ == '__main__':
     print('Starting to run')
